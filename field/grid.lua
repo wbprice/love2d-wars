@@ -16,7 +16,7 @@ function Grid:draw()
     love.graphics.line(self.hOffset, i * 48 + self.vOffset, 800 - self.hOffset, i * 48 + self.vOffset)
   end
   for j=0,self.hCells do
-    love.graphics.line(j * 48 + self.hOffset, self.vOffset, j * 48 + self.hOffset, 600 - self.hOffset)
+    love.graphics.line(j * 48 + self.hOffset, self.vOffset, j * 48 + self.hOffset, 600 - self.vOffset)
   end
 end
 
