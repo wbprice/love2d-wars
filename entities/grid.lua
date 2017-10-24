@@ -9,7 +9,7 @@ function Grid.new()
 end
 
 function Grid.draw(self)
-  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(155, 155, 155, 255)
   for i=0,self.vCells do
     love.graphics.line(16, i * 48 + 12, 784, i * 48 + 12)
   end
