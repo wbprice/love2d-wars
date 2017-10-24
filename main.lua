@@ -1,5 +1,5 @@
 Cursor = require './entities/cursor'
-Grid = require './entities/grid'
+Grid = require './field/grid'
 cursor = Cursor.new()
 grid = Grid.new()
 
