@@ -1,23 +1,15 @@
-local Cursor = {}
-Cursor.__index = Cursor
+local Base = require('entities/base')
 
-function Cursor.new(x, y)
-  local self = setmetatable({}, Cursor)
-  self.x = x or 16
-  self.y = y or 12
-  self.height = 48
-  self.width = 48
-  return self
-end
+local Cursor = Base:new()
 
-function Cursor.draw(self)
+function Cursor:draw()
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
   love.graphics.setColor(0, 0, 0, 255)
   love.graphics.rectangle('fill', self.x + 2, self.y + 2, self.width - 4, self.height - 4)
 end
 
-function Cursor.onMove(self)
+function Cursor:onMove()
   if love.keyboard.isDown('up') then
     if self.y > 16 then
       self.y = self.y - self.height
