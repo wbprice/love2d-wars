@@ -2,11 +2,9 @@ local Base = require('entities/base')
 
 local Cursor = Base:new()
 
-function Cursor:draw()
+function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-  love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.rectangle('fill', self.x + 2, self.y + 2, self.width - 4, self.height - 4)
+  love.graphics.rectangle('fill', posX, posY, 48, 48)
 end
 
 function Cursor:onMove()

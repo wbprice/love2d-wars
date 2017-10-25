@@ -15,6 +15,6 @@ function love.update()
 end
 
 function love.draw()
-    cursor:draw()
     grid:draw()
+    grid:drawEntity(cursor)
 end
