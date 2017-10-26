@@ -9,26 +9,26 @@ end
 
 function Cursor:onMove()
   if love.keyboard.isDown('up') then
-    if self.y > 16 then
-      self.y = self.y - self.height
+    if self.y > 0 then
+      self.y = self.y - 1
     end
   end
 
   if love.keyboard.isDown('down') then
-    if self.y < 588 - self.height then
-      self.y = self.y + self.height
+    if self.y < 11 then
+      self.y = self.y + 1
     end
   end
 
   if love.keyboard.isDown('left') then
-    if self.x > 16 then
-      self.x = self.x - self.width
+    if self.x > 0 then
+      self.x = self.x - 1
     end
   end
 
   if love.keyboard.isDown('right') then
-    if self.x < 784 - self.width then
-      self.x = self.x + self.width
+    if self.x < 15 then
+      self.x = self.x + 1
     end
   end
 end
