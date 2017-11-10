@@ -4,7 +4,7 @@ local Tank = require 'entities/tank'
 
 local grid = Grid.new()
 local cursor = Cursor:new()
-local tank = Tank:new()
+local tank = Tank:new(4, 4)
 
 function love.load()
     love.window.setMode(800, 600, { resizable=false, vsync=true })
