@@ -18,29 +18,35 @@ function Cursor.draw(self)
 end
 
 function Cursor.onMove(self)
-  if love.keyboard.isDown('up') then
-    if self.y > 16 then
-      self.y = self.y - self.height
-    end
-  end
+    function love.keypressed(key, scancode, isRepeat)
+        if isRepeat then
+            return
+        end
 
-  if love.keyboard.isDown('down') then
-    if self.y < 588 - self.height then
-      self.y = self.y + self.height
-    end
-  end
+        if scancode == 'up' then
+            if self.y > 16 then
+              self.y = self.y - self.height
+            end
+        end
 
-  if love.keyboard.isDown('left') then
-    if self.x > 16 then
-      self.x = self.x - self.width
-    end
-  end
+        if scancode == 'down' then
+            if self.y < 588 - self.height then
+              self.y = self.y + self.height
+            end
+        end
 
-  if love.keyboard.isDown('right') then
-    if self.x < 784 - self.width then
-      self.x = self.x + self.width
+        if scancode == 'left' then
+            if self.x > 16 then
+              self.x = self.x - self.width
+            end
+        end
+
+        if love.keyboard.isDown('right') then
+            if self.x < 784 - self.width then
+              self.x = self.x + self.width
+            end
+        end
     end
-  end
 end
 
 return Cursor
