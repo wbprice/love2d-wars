@@ -1,20 +1,12 @@
-local Cursor = {}
-Cursor.__index = Cursor
+local Base = require('entities/base')
 
-function Cursor.new(x, y)
-  local self = setmetatable({}, Cursor)
-  self.x = x or 16
-  self.y = y or 12
-  self.height = 48
-  self.width = 48
-  return self
-end
+local Cursor = Base:new()
 
-function Cursor.draw(self)
+function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+  love.graphics.rectangle('fill', posX, posY, 48, 48)
   love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.rectangle('fill', self.x + 2, self.y + 2, self.width - 4, self.height - 4)
+  love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
 end
 
 function Cursor.onMove(self)
@@ -24,26 +16,26 @@ function Cursor.onMove(self)
         end
 
         if scancode == 'up' then
-            if self.y > 16 then
-              self.y = self.y - self.height
+            if self.y > 0 then
+              self.y = self.y - 1
             end
         end
 
         if scancode == 'down' then
-            if self.y < 588 - self.height then
-              self.y = self.y + self.height
+            if self.y < 11 then
+              self.y = self.y + 1
             end
         end
 
         if scancode == 'left' then
-            if self.x > 16 then
-              self.x = self.x - self.width
+            if self.x > 0 then
+              self.x = self.x - 1
             end
         end
 
         if love.keyboard.isDown('right') then
-            if self.x < 784 - self.width then
-              self.x = self.x + self.width
+            if self.x < 15 then
+              self.x = self.x + 1
             end
         end
     end
