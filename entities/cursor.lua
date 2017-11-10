@@ -4,9 +4,7 @@ local Cursor = Base:new()
 
 function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('fill', posX, posY, 48, 48)
-  love.graphics.setColor(0, 0, 0, 255)
-  love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
+  love.graphics.rectangle('line', posX, posY, 48, 48)
 end
 
 function Cursor.onMove(self)
