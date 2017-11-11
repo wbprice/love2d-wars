@@ -11,7 +11,7 @@ function love.load()
 end
 
 function love.update()
-    cursor:onMove()
+    cursor:onKeyPress()
 end
 
 function love.draw()
