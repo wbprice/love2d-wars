@@ -20,7 +20,7 @@ end
 
 function love.draw()
     grid:draw()
-    grid:drawEntity(tank)
-    grid:drawEntity(cursor)
+    grid:place(tank)
+    grid:place(cursor)
 end
 

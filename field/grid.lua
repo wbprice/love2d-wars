@@ -32,7 +32,7 @@ function Grid:draw()
   end
 end
 
-function Grid:drawEntity(entity)
+function Grid:place(entity)
   local posX = self.hOffset + entity.x * self.tileWidth
   local posY = self.vOffset + entity.y * self.tileHeight
   entity:draw(posX, posY)
