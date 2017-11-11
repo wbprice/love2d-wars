@@ -3,12 +3,12 @@ local Cursor = require 'entities/cursor'
 local Tank = require 'entities/tank'
 
 -- Gameboard
-local grid = Grid.new()
-local cursor = Cursor:new()
+local grid = Grid:new()
+local cursor = grid.register(Cursor:new(0, 0))
 cursor:onKeyPress()
 
 -- Units
-local tank = Tank:new(4, 4)
+local tank = grid.register(Tank:new(3, 2))
 
 function love.load()
     love.window.setMode(800, 600, { resizable=false, vsync=true })
@@ -20,7 +20,6 @@ end
 
 function love.draw()
     grid:draw()
-    grid:place(tank)
-    grid:place(cursor)
+    cursor:draw()
 end
 
