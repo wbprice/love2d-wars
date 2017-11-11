@@ -2,8 +2,12 @@ local Grid = require 'field/grid'
 local Cursor = require 'entities/cursor'
 local Tank = require 'entities/tank'
 
+-- Gameboard
 local grid = Grid.new()
 local cursor = Cursor:new()
+cursor:onKeyPress()
+
+-- Units
 local tank = Tank:new(4, 4)
 
 function love.load()
@@ -11,7 +15,7 @@ function love.load()
 end
 
 function love.update()
-    cursor:onKeyPress()
+
 end
 
 function love.draw()
@@ -19,3 +23,4 @@ function love.draw()
     grid:drawEntity(tank)
     grid:drawEntity(cursor)
 end
+
