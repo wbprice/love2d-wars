@@ -1,3 +1,5 @@
+local getPoint, getPaths = require 'board/paths'
+
 local Grid = {}
 
 function Grid:new(width, height)
@@ -29,6 +31,11 @@ end
 
 function Grid:getEntity(x, y)
   return self.cells[y][x]
+end
+
+function Grid:onGrid(x, y)
+  return x >= 0 and x <= self.hCells and
+         y >= 0 and y <= self.vCells
 end
 
 function Grid:place(entity, x, y)

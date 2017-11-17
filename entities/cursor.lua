@@ -32,6 +32,10 @@ end
 
 function onSelect(self)
     selectSound:play()
+    local entity = self.units:getEntity(self.x, self.y)
+    if entity and entity.speed then
+        self.grid:showMoves(self.x, self.y, entity.speed)
+    end
 end
 
 local keymap = {
@@ -52,64 +56,6 @@ function Cursor:onKeyPress()
 
         return action and action(self)
     end
-end
-
-function getNextMoves(location)
-    return {
-        moveUp(location),
-        moveDown(location),
-        moveLeft(location),
-        moveRight(location),
-    }
-end
-
-function findPaths(location, speed, paths)
-    local paths = paths or {[speed] = location}
-
-    if paths[speed] then
-        for j, lop in pairs(getNextMoves(location)) do
-            print(lop.x, lop.y)
-            table.insert(paths[speed], lop)
-        end
-    else
-        paths[speed] = getNextMoves(location);
-    end                                                                                                                                                                                                                                                                                                                                                                                    
-
-    if speed > 1 then
-        for k, loc in pairs(paths[speed]) do
-            findPaths(loc, speed - 1, paths)
-        end
-    end
-
-    return paths;
-end
-
-function moveUp(loc)
-    return {
-        x = loc.x,
-        y = loc.y - 1,
-    }
-end
-
-function moveDown(loc)
-    return {
-        x = loc.x,
-        y = loc.y + 1,
-    }
-end
-
-function moveLeft(loc)
-    return {
-        x = loc.x - 1,
-        y = loc.y,
-    }
-end
-
-function moveRight(loc)
-    return {
-        x = loc.x + 1,
-        y = loc.y,
-    }
 end
 
 return Cursor
