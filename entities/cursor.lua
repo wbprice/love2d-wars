@@ -5,94 +5,33 @@ local Cursor = Base:new()
 local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 local moveSound = love.audio.newSource("sounds/cursor/move.wav", "static")
 
-function Cursor:new (posX, posY)
-    local cursor = Base:new(posX, posY)
-    cursor.x = posX
-    cursor.y = posY
-    cursor.selectionPoint = {}
-    setmetatable(cursor, self)
-    self.__index = self
-    cursor.registerWith = function(grid)
-        cursor.grid = grid
-        return cursor
-    end
-    return cursor
-end
-
-function drawLegalMove(self, x, y)
-  local posX = self.grid.hOffset + x * self.grid.tileWidth
-  local posY = self.grid.vOffset + y * self.grid.tileHeight
-  love.graphics.setColor(137, 207, 240, 155)
-  love.graphics.rectangle('fill', posX, posY, 48, 48)
-end
-
-function Cursor:drawLegalMoves()
-  local x = self.selectionPoint.x
-  local y = self.selectionPoint.y
-
-  drawLegalMove(self, x - 1, y)
-  drawLegalMove(self, x + 1, y)
-  drawLegalMove(self, x, y + 1)
-  drawLegalMove(self, x, y - 1)
-end
-
-function Cursor:draw()
-  local posX = self.grid.hOffset + self.x * self.grid.tileWidth
-  local posY = self.grid.vOffset + self.y * self.grid.tileHeight
-
+function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle('line', posX, posY, 48, 48)
-  
-  if self.selectionPoint.x then
-    self:drawLegalMoves()
-  end
-end
-
-local moveSound = function()
-    moveSound:play()
 end
 
 function moveUp(self)
-    moveSound()
-    if self.y > 0 then
-      self.y = self.y - 1
-    end
+    moveSound:play()
+    self.grid:moveEntityUp(self)
 end
 
 function moveDown(self)
-    moveSound()
-    if self.y < 11 then
-      self.y = self.y + 1
-    end
+    moveSound:play()
+    self.grid:moveEntityDown(self)
 end
 
 function moveLeft(self)
-    moveSound()
-    if self.x > 0 then
-      self.x = self.x - 1
-    end
+    moveSound:play()
+    self.grid:moveEntityLeft(self)
 end
 
 function moveRight(self)
-    moveSound()
-    if self.x < 15 then
-      self.x = self.x + 1
-    end
+    moveSound:play()
+    self.grid:moveEntityRight(self)
 end
 
 function onSelect(self)
     selectSound:play()
-    local entity = self.grid:findEntityAt(self.x, self.y)
-    if entity.speed then
-        self.selected = entity
-        self.selectionPoint = {
-            ['x'] = self.x,
-            ['y'] = self.y
-        }
-    else 
-        self.selectionPoint = {}
-        self.selected = {}
-    end
 end
 
 local keymap = {
@@ -113,6 +52,64 @@ function Cursor:onKeyPress()
 
         return action and action(self)
     end
+end
+
+function getNextMoves(location)
+    return {
+        moveUp(location),
+        moveDown(location),
+        moveLeft(location),
+        moveRight(location),
+    }
+end
+
+function findPaths(location, speed, paths)
+    local paths = paths or {[speed] = location}
+
+    if paths[speed] then
+        for j, lop in pairs(getNextMoves(location)) do
+            print(lop.x, lop.y)
+            table.insert(paths[speed], lop)
+        end
+    else
+        paths[speed] = getNextMoves(location);
+    end                                                                                                                                                                                                                                                                                                                                                                                    
+
+    if speed > 1 then
+        for k, loc in pairs(paths[speed]) do
+            findPaths(loc, speed - 1, paths)
+        end
+    end
+
+    return paths;
+end
+
+function moveUp(loc)
+    return {
+        x = loc.x,
+        y = loc.y - 1,
+    }
+end
+
+function moveDown(loc)
+    return {
+        x = loc.x,
+        y = loc.y + 1,
+    }
+end
+
+function moveLeft(loc)
+    return {
+        x = loc.x - 1,
+        y = loc.y,
+    }
+end
+
+function moveRight(loc)
+    return {
+        x = loc.x + 1,
+        y = loc.y,
+    }
 end
 
 return Cursor

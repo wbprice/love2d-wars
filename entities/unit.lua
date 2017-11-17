@@ -1,21 +1,15 @@
-local Base = require 'entities/base'
+Base = require 'entities/base'
 
-local Unit = {}
-
-function Unit:new (posX, posY)
-    local unit = Base:new(posX, posY)
-    setmetatable(unit, self)
-    self.__index = self
-    unit.health = 10
-    unit.speed = 1
-    unit.ready = true
-    unit.faction = 'blue'
-    unit.selected = false
-    return unit
-end
+Unit = Base:new()
 
 function Unit:draw(posX, posY)
     love.graphics.rectangle('fill', posX, posY, 48, 48)
 end
+
+Unit.health = 10
+Unit.speed = 1
+Unit.ready = true
+Unit.faction = 'blue'
+Unit.selected = false
 
 return Unit
