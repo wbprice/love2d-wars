@@ -34,7 +34,7 @@ function onSelect(self)
     selectSound:play()
     local entity = self.units:getEntity(self.x, self.y)
     if entity and entity.speed then
-        self.grid:showMoves(self.x, self.y, entity.speed)
+        self.units:showMoves(self.x, self.y, entity.speed)
     end
 end
 

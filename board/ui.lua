@@ -1,6 +1,5 @@
 local Grid = require 'board/grid' 
 local Move = require 'entities/move'
-local getPaths = require 'board/paths'
 
 local Ui = Grid:new()
 
@@ -15,17 +14,6 @@ function Ui:draw()
       end
     end
   end
-end
-
-function Ui:showMoves(x, y, moves)
-    local paths = getPaths({x=x, y=y,}, moves)
-    for k, path in pairs(paths) do
-      for l, move in pairs(path) do
-        if self:onGrid(move.x, move.y) then
-          self.cells[move.y][move.x] = Move:new()
-        end
-      end
-    end
 end
 
 return Ui

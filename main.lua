@@ -9,6 +9,7 @@ local board = Board:new()
 local cursor = Cursor:new()
 cursor:onKeyPress()
 board.ui:place(cursor, 1, 1)
+cursor.terrain = board.terrain
 cursor.units = board.units
 
 -- Units
