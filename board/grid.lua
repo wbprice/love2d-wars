@@ -34,27 +34,6 @@ function Grid:getEntity(x, y)
   return self.cells[y][x]
 end
 
-function Grid:onGrid(x, y)
-  return x >= 0 and x <= self.hCells and
-         y >= 0 and y <= self.vCells
-end
-
-function Grid:shouldShowMove(x, y)
-  return not self:getEntity(x, y) and
-         self:onGrid(x, y)
-end
-
-function Grid:showMoves(x, y, moves)
-  local paths = getPaths({x=x, y=y,}, moves)
-  for k, path in pairs(paths) do
-    for l, move in pairs(path) do
-      if self:shouldShowMove(move.x, move.y) then
-        self.cells[move.y][move.x] = Move:new()
-      end
-    end
-  end
-end
-
 function Grid:place(entity, x, y)
   entity.grid = self
   self.cells[y][x] = entity

@@ -31,10 +31,9 @@ function moveRight(self)
 end
 
 function onSelect(self)
-    selectSound:play()
     local entity = self.units:getEntity(self.x, self.y)
-    if entity and entity.speed then
-        self.units:showMoves(self.x, self.y, entity.speed)
+    if entity and entity.onClick then
+        entity:onClick(self.x, self.y)
     end
 end
 
