@@ -2,7 +2,6 @@ local Base = require('entities/base')
 
 local Cursor = Base:new()
 
-local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 local moveSound = love.audio.newSource("sounds/cursor/move.wav", "static")
 
 function Cursor:draw(posX, posY)

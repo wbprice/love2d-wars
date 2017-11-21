@@ -1,10 +1,11 @@
 local Grid = require 'board/grid'
+local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 
 local Units = Grid:new()
 
 function drawCell(originX, originY)
-  love.graphics.setColor(155, 155, 155, 255)
-  love.graphics.rectangle('line', originX, originY, 48, 48)    
+    love.graphics.setColor(155, 155, 155, 255)
+    love.graphics.rectangle('line', originX, originY, 48, 48)    
 end
 
 function Units:draw()

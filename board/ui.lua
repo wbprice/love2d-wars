@@ -16,4 +16,15 @@ function Ui:draw()
   end
 end
 
+function Ui:showMoves(x, y, moves)
+  local paths = getPaths({x=x, y=y,}, moves)
+  for k, path in pairs(paths) do
+    for l, move in pairs(path) do
+      if self:shouldShowMove(move.x, move.y) then
+        self.cells[move.y][move.x] = Move:new()
+      end
+    end
+  end
+end
+
 return Ui
