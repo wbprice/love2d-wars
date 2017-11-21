@@ -16,6 +16,18 @@ function Board:new(width, height)
     return board
 end
 
+function Board:placeUnit(unit, posX, posY)
+    unit.ui = self.ui
+    unit.terrain = self.terrain
+    self.units:place(unit, posX, posY)
+end
+
+function Board:placeCursor(cursor, posX, posY)
+    cursor.terrain = self.terrain
+    cursor.units = self.units
+    self.cursor:place(cursor, posX, posY)
+end
+
 function Board:draw()
     self.terrain:draw()
     self.units:draw()
