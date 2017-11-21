@@ -1,6 +1,6 @@
-local Cell = {}
+local Chunk = {}
 
-function Cell:new(width, height)
+function Chunk:new(width, height)
   local cell = {}
   setmetatable(cell, self)
   self.__index = self
