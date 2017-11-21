@@ -29,10 +29,6 @@ function Grid:new(width, height)
 
   return grid
 end
-  
-function Grid:getEntity(x, y)
-  return self.cells[y][x]
-end
 
 function Grid:place(entity, x, y)
   entity.grid = self
