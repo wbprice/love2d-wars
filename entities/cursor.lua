@@ -30,7 +30,7 @@ function moveRight(self)
 end
 
 function onSelect(self)
-
+    self:selectUnit(self.x, self.y)
 end
 
 local keymap = {

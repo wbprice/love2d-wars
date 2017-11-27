@@ -52,6 +52,7 @@ function Grid:placeCursor(cursor, x, y)
     cursor.moveRight = self.moveEntityRight
     cursor.moveDown = self.moveEntityDown
     cursor.moveLeft = self.moveEntityLeft
+    cursor.selectUnit = self.selectUnit
     cell.cursor = cursor
 end
 
@@ -81,6 +82,11 @@ function Grid:moveEntityLeft(key, x, y)
     local cursor = cell.cursor
     self.grid:placeCursor(cursor, x, y - 1)
     cell.cursor = nil
+end
+
+function Grid:selectUnit(x, y)
+    local cell = self.grid:getCell(x, y)
+    print(cell.unit)
 end
 
 function Grid:draw()
