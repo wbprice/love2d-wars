@@ -6,34 +6,31 @@ local moveSound = love.audio.newSource("sounds/cursor/move.wav", "static")
 
 function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('line', posX, posY, 48, 48)
+  love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
 end
 
 function moveUp(self)
     moveSound:play()
-    self.grid:moveEntityUp(self)
+    self:moveUp('cursor', self.x, self.y)
 end
 
 function moveDown(self)
     moveSound:play()
-    self.grid:moveEntityDown(self)
+    self:moveDown('cursor', self.x, self.y)
 end
 
 function moveLeft(self)
     moveSound:play()
-    self.grid:moveEntityLeft(self)
+    self:moveLeft('cursor', self.x, self.y)
 end
 
 function moveRight(self)
     moveSound:play()
-    self.grid:moveEntityRight(self)
+    self:moveRight('cursor', self.x, self.y)
 end
 
 function onSelect(self)
-    local entity = self.units:getEntity(self.x, self.y)
-    if entity and entity.onClick then
-        entity:onClick(self.x, self.y)
-    end
+
 end
 
 local keymap = {

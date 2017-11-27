@@ -16,6 +16,15 @@ function Cell:draw(originX, originY)
     if self.terrain then
         self.terrain:draw(originX, originY)
     end
+    if self.unit then
+        self.unit:draw(originX, originY)
+    end
+    if self.action then
+        self.action:draw(originX, originY)
+    end
+    if self.cursor then
+        self.cursor:draw(originX, originY)
+    end
 end
 
 return Cell
