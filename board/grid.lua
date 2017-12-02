@@ -27,6 +27,11 @@ function Grid:new(width, height)
   return grid
 end
 
+function Grid:onGrid(x, y)
+    return x < self.hCells and x >= 0 and 
+           y < self.vCells and y >= 0
+end
+
 function Grid:getCell(x, y)
     return self.cells[y][x]
 end
@@ -41,17 +46,11 @@ function Grid:placeUnit(unit, x, y)
     cell.unit = unit
 end
 
-function Grid:clearActions()
-    for k, row in pairs(self.cells) do
-        for l, cell in pairs(row) do
-            cell.action = nil
-        end
-    end
-end
-
 function Grid:placeAction(x, y)
-    local cell = self:getCell(x, y)
-    cell.action = Action:new()
+    if self:onGrid(x, y) then
+        local cell = self:getCell(x, y)
+        cell.action = Action:new()
+    end
 end
 
 function Grid:placeCursor(cursor, x, y)
@@ -98,14 +97,11 @@ end
 function Grid:selectUnit(x, y)
     local cell = self.grid:getCell(x, y)
     local unit = cell.unit
-    local point = {x = x, y = y}
-    local paths = getPaths(point, unit.speed)
+    local paths = getPaths({x = x, y = y}, unit.speed)
     for k, path in pairs(paths) do
         for l, move in pairs(path) do
-            print(move.x..','..move.y)
             self.grid:placeAction(move.x, move.y)
         end
-        print('_____')
     end
 end
 

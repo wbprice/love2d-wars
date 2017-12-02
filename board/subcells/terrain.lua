@@ -2,6 +2,7 @@ local Terrain = {}
 
 function Terrain:new()
     local terrain = {}
+    terrain.moveCost = 1
     setmetatable(terrain, self)
     self.__index = self
     return terrain
