@@ -2,7 +2,7 @@ local Unit = require 'entities/unit'
 
 local Tank = Unit:new()
 
-Tank.speed = 3
+Tank.speed = 1
 
 function Tank:draw(posX, posY)
     if self.faction == 'blue' then

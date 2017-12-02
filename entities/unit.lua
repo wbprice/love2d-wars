@@ -29,7 +29,6 @@ end
 
 function Unit:onClick(posX, posY)
     selectSound:play()
-    self.ui:showMoves(posX, posY, self.speed)
 end
 
 Unit.health = 10

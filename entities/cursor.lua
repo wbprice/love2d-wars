@@ -30,7 +30,10 @@ function moveRight(self)
 end
 
 function onSelect(self)
-    self:selectUnit(self.x, self.y)
+    local cell = self.grid:getCell(self.x, self.y)
+    if cell.unit then
+        self:selectUnit(self.x, self.y)
+    end
 end
 
 local keymap = {

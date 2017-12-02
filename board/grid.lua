@@ -1,4 +1,7 @@
 local Cell = require 'board/cell'
+local Action = require 'board/subcells/action'
+local getPaths = require 'board/paths'
+
 local Grid = {}
 
 function Grid:new(width, height)
@@ -38,9 +41,17 @@ function Grid:placeUnit(unit, x, y)
     cell.unit = unit
 end
 
-function Grid:placeActions(action, x, y)
+function Grid:clearActions()
+    for k, row in pairs(self.cells) do
+        for l, cell in pairs(row) do
+            cell.action = nil
+        end
+    end
+end
+
+function Grid:placeAction(x, y)
     local cell = self:getCell(x, y)
-    cell.action = action
+    cell.action = Action:new()
 end
 
 function Grid:placeCursor(cursor, x, y)
@@ -86,7 +97,16 @@ end
 
 function Grid:selectUnit(x, y)
     local cell = self.grid:getCell(x, y)
-    print(cell.unit)
+    local unit = cell.unit
+    local point = {x = x, y = y}
+    local paths = getPaths(point, unit.speed)
+    for k, path in pairs(paths) do
+        for l, move in pairs(path) do
+            print(move.x..','..move.y)
+            self.grid:placeAction(move.x, move.y)
+        end
+        print('_____')
+    end
 end
 
 function Grid:draw()
