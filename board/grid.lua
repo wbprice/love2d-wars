@@ -97,7 +97,9 @@ end
 function Grid:selectUnit(x, y)
     local cell = self.grid:getCell(x, y)
     local unit = cell.unit
-    local paths = getPaths({x = x, y = y}, self.cells, unit.speed)
+
+    local paths = getPaths(self.cells, {x = x, y = y}, unit.speed)
+
     for k, path in pairs(paths) do
         for l, move in pairs(path) do
             self.grid:placeAction(move.x, move.y)

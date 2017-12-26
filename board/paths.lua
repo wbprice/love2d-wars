@@ -36,7 +36,7 @@ end
 function getMoveCost(area, point)
     local x = point.x
     local y = point.y
-    return area[y][x].moveCost or 1
+    return area[y][x].terrain.moveCost or 1
 end
 
 -- A function that determines if a new path would be on the map or not.
@@ -58,10 +58,12 @@ function findNextMoves(area, path)
     local actions = {moveUp, moveRight, moveDown, moveLeft}
 
     local one = lamb.map(actions, function(action) 
+        print('action: ', action)
+        print('lastPoint: ', lastPoint)
         return action(lastPoint)
     end)
 
-    local two = filter(one, function(move) 
+    local two = lamb.filter(one, function(move) 
         return isOnMap(area, move)  
     end)
 
@@ -93,7 +95,7 @@ function expandPath(area, path, nextMoves)
         nextMoves = findNextMoves(area, path)
     end
 
-    return map(nextMoves, function(move) 
+    return lamb.map(nextMoves, function(move) 
         return lamb.concat(
             path, 
             {lamb.extend(move, {

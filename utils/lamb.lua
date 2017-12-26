@@ -78,4 +78,8 @@ function lamb.map(table, callback)
     return output
 end
 
+function lamb.last(table)
+    return table[#table]
+end
+
 return lamb
