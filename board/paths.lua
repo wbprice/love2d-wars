@@ -1,13 +1,7 @@
--- Describes a single point on a Cartesian grid 
-function getPoint(x, y)
-    return {
-        x = x,
-        y = y,
-    }
-end
+local lamb = require 'utils/lamb'
 
 -- Creates a new Point one position above point
-local function moveUp(point)
+function moveUp(point)
     return {
         x = point.x,
         y = point.y + 1
@@ -15,7 +9,7 @@ local function moveUp(point)
 end
 
 -- Creates a new Point one position below point
-local function moveDown(point)
+function moveDown(point)
     return {
         x = point.x,
         y = point.y - 1
@@ -23,7 +17,7 @@ local function moveDown(point)
 end
 
 -- Creates a new Point one position left of point
-local function moveLeft(point)
+function moveLeft(point)
     return {
         x = point.x - 1,
         y = point.y
@@ -31,99 +25,111 @@ local function moveLeft(point)
 end
 
 -- Creates a new Point one position right of point
-local function moveRight(point)
+function moveRight(point)
     return {
         x = point.x + 1,
         y = point.y
     }
 end
 
--- Returns a table of next moves
-local function getNextMoves(point)
-    return {
-        moveUp(point),
-        moveDown(point),
-        moveLeft(point),
-        moveRight(point)
-    }
+-- Determine's cost to move to a given cell
+function getMoveCost(area, point)
+    local x = point.x
+    local y = point.y
+    return area[y][x].moveCost or 1
 end
 
--- Determines if a path loops back on itself
-local function pathLoopsBack(path)
-    local moveCount = {}
-    for k, move in pairs(path) do
-        local key = move.x..','..move.y
-        if moveCount[key] == nil then
-            moveCount[key] = 0
+-- A function that determines if a new path would be on the map or not.
+function isOnMap(area, point)
+    local x = point.x
+    local y = point.y
+    return area[y] and area[y][x]
+end
+
+-- Given a Point, returns a Path with length one.
+function getPathStart(point, speed)
+    return {lamb.extend(point, {speed=speed})}
+end
+
+-- Given an Area table and a Path table, determines the next possible moves.
+function findNextMoves(area, path)
+    local lastPoint = lamb.last(path)
+
+    local actions = {moveUp, moveRight, moveDown, moveLeft}
+
+    local one = lamb.map(actions, function(action) 
+        return action(lastPoint)
+    end)
+
+    local two = filter(one, function(move) 
+        return isOnMap(area, move)  
+    end)
+
+    local three = lamb.filter(two, function(move) 
+        return not pathLoopsback(path, move)
+    end)
+
+    local four = lamb.filter(three, function(move) 
+        return lastPoint.speed >= getMoveCost(area, move)
+    end)
+
+    return four
+end
+
+-- Given a Path and a Point, determines if adding the point to 
+-- the path would cause it to loop back on itself.
+function pathLoopsback(path, point)
+    return lamb.find(path, function(muv) 
+        return muv.x == point.x and muv.y == point.y
+    end)
+end
+
+-- Given an Area table, a single Path, and (optionally) a table
+-- containing NextMoves, returns a table with new possible Paths 
+function expandPath(area, path, nextMoves)
+    local lastMove = lamb.last(path)
+
+    if not nextMoves then
+        nextMoves = findNextMoves(area, path)
+    end
+
+    return map(nextMoves, function(move) 
+        return lamb.concat(
+            path, 
+            {lamb.extend(move, {
+                speed = lastMove.speed - getMoveCost(area, move)
+            })}
+        )
+    end)
+end
+
+-- Given an Area table and a table of Paths, finds more possible paths
+function expandPaths(area, paths) 
+    return lamb.reduce(paths, function(memo, path)
+        local nextMoves = findNextMoves(area, path)
+        if #nextMoves > 0 then
+            return lamb.concat(memo, expandPath(area, path, nextMoves))
+        else
+            memo[#memo+1] = path
         end
-        moveCount[key] = moveCount[key] + 1
-        if moveCount[key] > 1 then
-            return true
-        end
-    end
-    return false
+        return memo
+    end, {}) 
 end
 
--- Removes paths that loop back on themselves
-local function filterLoopbackPaths(paths)
-    local results = {}
-    for k, path in pairs(paths) do
-        if not pathLoopsBack(path) then
-            table.insert(results, path)
-        end
-    end
-    return results
-end
-
--- Given a point, return a table of next paths
-local function getNextPathsFromPoint(point)
-    local result = {}
-    for k,move in pairs(getNextMoves(point)) do
-        table.insert(result, {
-            point,
-            move
-        })
-    end
-    return result
-end
-
--- Given a path, return a table of next paths
-local function getNextPathsFromPath(path)
-    local results = {}
-    local lastPoint = path[#path]
-    for k, move in pairs(getNextMoves(path[#path])) do
-        local res = {}
-        for k, m in pairs(path) do
-            table.insert(res, m)
-        end
-        table.insert(res, move)
-        table.insert(results, res)
-    end
-    return results
-end
-
--- given a table containing paths, return a table of next paths
-local function getNextPathsFromPaths(paths)
-    local results = {}
-    for k, path in pairs(paths) do
-        for l, path in pairs(getNextPathsFromPath(path)) do
-            table.insert(results, path);
-        end
-    end
-    return filterLoopbackPaths(results)
-end
-
--- get all paths from a an origin possible using a given number of moves.
-function getPaths(input, moves)
-    if moves <= 0 then
-        return input
-    end
-
+-- Given an Area table, a starting position Table, and the number of moves 
+-- available, returns a table containing all legal paths.
+function getPaths(area, input, speed)
     if input.x and input.y then
-        return getPaths(getNextPathsFromPoint(input), moves - 1)
-    else
-        return getPaths(getNextPathsFromPaths(input), moves - 1)
+        return getPaths(area, expandPath(area, getPathStart(input, speed)))
     end
+
+    local results = expandPaths(area, input)
+    -- recursive case
+    if #results > #input then
+        return getPaths(area, results)
+    end
+    -- base case
+    return results
 end
 
 return getPaths
