@@ -1,13 +1,21 @@
-local Grid = require 'board/grid'
-local Tank = require 'entities/tank'
 local Cursor = require 'entities/cursor'
+local Tank = require 'entities/tank'
 
--- Gameboard
-local cursor = Cursor:new()
+-- gameboard
+local units = require 'board/units'
+local terrain = require 'board/terrain'
+local cursors = require 'board/cursor'
+local actions = require 'board/actions'
+
+-- entities
+local cursor = Cursor:new(1, 1)
+
+units:addEntity(Tank:new(2, 3))
+units:addEntity(Tank:new(7, 5))
+cursors:addEntity(cursor)
+
+-- register event listeners
 cursor:onKeyPress()
-local grid = Grid:new(16, 12)
-grid:placeUnit(Tank:new(), 1, 1)
-grid:placeCursor(cursor, 1, 1)
 
 function love.load()
     love.window.setMode(800, 600, { resizable=false, vsync=true })
@@ -18,6 +26,9 @@ function love.update()
 end
 
 function love.draw()
-    grid:draw()
+    terrain:drawBoard()
+    units:drawBoard()
+    actions:drawBoard()
+    cursors:drawBoard()
 end
 

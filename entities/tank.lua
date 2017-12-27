@@ -15,7 +15,7 @@ function Tank:draw(posX, posY)
 
     love.graphics.rectangle('fill', posX, posY, 48, 48)
     love.graphics.setColor(255, 255, 255, 255)
-    love.graphics.print("B", posX + 12, posY + 4, 0, 3, 3)
+    love.graphics.print("T", posX + 12, posY + 4, 0, 3, 3)
 end
 
 return Tank

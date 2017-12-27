@@ -2,7 +2,7 @@ local lamb = {}
 
 -- functional utility function reduce
 function lamb.reduce(table, callback, state)
-    local memo = state or nil
+    local memo = state or {}
     for k, value in pairs(table) do
         memo = callback(memo, value, k, table)
     end
@@ -24,6 +24,15 @@ function lamb.find(table, predicate)
         end
     end
     return nil
+end
+
+function lamb.findIndex(table, predicate)
+    for k, value in pairs(table) do
+        if predicate(value) then
+            return k
+        end
+    end
+    return -1
 end
 
 -- Functional utility function filter
@@ -80,6 +89,10 @@ end
 
 function lamb.last(table)
     return table[#table]
+end
+
+function lamb.push(table, member)
+    table[#table + 1] = member
 end
 
 return lamb

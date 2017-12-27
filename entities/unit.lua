@@ -2,8 +2,7 @@ local Base = require 'entities/base'
 local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 
 Unit = Base:new()
-
-Unit.selectionPoint = {}
+Unit.new = Base.new
 
 function Unit:draw(posX, posY)
     love.graphics.rectangle('fill', posX, posY, 48, 48)
@@ -35,6 +34,5 @@ Unit.health = 10
 Unit.speed = 1
 Unit.ready = true
 Unit.faction = 'blue'
-Unit.selected = false
 
 return Unit
