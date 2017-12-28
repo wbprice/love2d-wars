@@ -1,37 +1,46 @@
-local Base = require('entities/base')
+local Base = require 'entities/base'
+local units = require 'board/units'
+local actions = require 'board/actions'
 
 local Cursor = Base:new()
 
-local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 local moveSound = love.audio.newSource("sounds/cursor/move.wav", "static")
+local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 
 function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('line', posX, posY, 48, 48)
+  love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
 end
 
-function moveUp(self)
+local function moveUp(self)
     moveSound:play()
-    self.grid:moveEntityUp(self)
+    self.y = self.y - 1  
 end
 
-function moveDown(self)
+local function moveDown(self)
     moveSound:play()
-    self.grid:moveEntityDown(self)
+    self.y = self.y + 1  
 end
 
-function moveLeft(self)
+local function moveLeft(self)
     moveSound:play()
-    self.grid:moveEntityLeft(self)
+    self.x = self.x - 1  
 end
 
-function moveRight(self)
+local function moveRight(self)
     moveSound:play()
-    self.grid:moveEntityRight(self)
+    self.x = self.x + 1  
 end
 
-function onSelect(self)
-    selectSound:play()
+local function onSelect(self)
+    local unit = units:find(self.x, self.y)
+    if unit then
+        selectSound:play()
+        actions:addMoves(self.x, self.y, unit.speed)
+    else
+        actions:clear()
+        moveSound:play()
+    end
 end
 
 local keymap = {
@@ -52,64 +61,6 @@ function Cursor:onKeyPress()
 
         return action and action(self)
     end
-end
-
-function getNextMoves(location)
-    return {
-        moveUp(location),
-        moveDown(location),
-        moveLeft(location),
-        moveRight(location),
-    }
-end
-
-function findPaths(location, speed, paths)
-    local paths = paths or {[speed] = location}
-
-    if paths[speed] then
-        for j, lop in pairs(getNextMoves(location)) do
-            print(lop.x, lop.y)
-            table.insert(paths[speed], lop)
-        end
-    else
-        paths[speed] = getNextMoves(location);
-    end                                                                                                                                                                                                                                                                                                                                                                                    
-
-    if speed > 1 then
-        for k, loc in pairs(paths[speed]) do
-            findPaths(loc, speed - 1, paths)
-        end
-    end
-
-    return paths;
-end
-
-function moveUp(loc)
-    return {
-        x = loc.x,
-        y = loc.y - 1,
-    }
-end
-
-function moveDown(loc)
-    return {
-        x = loc.x,
-        y = loc.y + 1,
-    }
-end
-
-function moveLeft(loc)
-    return {
-        x = loc.x - 1,
-        y = loc.y,
-    }
-end
-
-function moveRight(loc)
-    return {
-        x = loc.x + 1,
-        y = loc.y,
-    }
 end
 
 return Cursor
