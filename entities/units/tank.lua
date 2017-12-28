@@ -1,4 +1,4 @@
-local Unit = require 'entities/unit'
+local Unit = require 'entities/units/unit'
 
 local Tank = Unit:new()
 

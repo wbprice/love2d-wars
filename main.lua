@@ -1,5 +1,5 @@
 local Cursor = require 'entities/cursor'
-local Tank = require 'entities/tank'
+local Tank = require 'entities/units/tank'
 
 -- gameboard
 local units = require 'board/units'

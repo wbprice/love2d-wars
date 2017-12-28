@@ -1,6 +1,6 @@
 local Grid = require 'board/grid'
-local Terrain = require 'board/cells/terrain'
-local Road = require 'board/cells/road'
+local Terrain = require 'entities/tiles/terrain'
+local Road = require 'entities/tiles/road'
 
 local terrain = Grid:new(12, 16)
 

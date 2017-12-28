@@ -1,4 +1,4 @@
-local Terrain = require 'board/cells/terrain'
+local Terrain = require 'entities/tiles/terrain'
 
 local Road = Terrain:new()
 
