@@ -9,7 +9,9 @@ local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 
 function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
+  love.graphics.setLineWidth(4)
+  love.graphics.rectangle('line', posX + 2, posY + 2, 44, 44)
+  love.graphics.setLineWidth(1)
 end
 
 local function moveUp(self)
