@@ -10,7 +10,7 @@ function Move:new(posX, posY)
 end
 
 function Move:draw(originX, originY)
-    love.graphics.setColor(0, 0, 255, 155)
+    love.graphics.setColor(106, 204, 253, 155)
     love.graphics.rectangle('fill', originX, originY, 48, 48)
 end
 
