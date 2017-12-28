@@ -1,5 +1,5 @@
 local Grid = require 'board/grid'
-local Move = require 'board/cells/move'
+local Move = require 'entities/tiles/move'
 
 local getMoveSquares = require 'board/utils/getMoveSquares'
 local lamb = require 'utils/lamb'
