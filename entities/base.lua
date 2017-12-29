@@ -16,4 +16,9 @@ function Base:draw(posX, posY)
   love.graphics.rectangle('fill', posX + 2, posY + 2, 44, 44)
 end
 
+function Base:move(posX, posY)
+  self.x = posX
+  self.y = posY
+end
+
 return Base

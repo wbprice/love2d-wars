@@ -6,6 +6,7 @@ function Move:new(posX, posY)
     self.__index = self
     move.x = posX
     move.y = posY
+    move.type = 'Move'
     return move
 end
 
