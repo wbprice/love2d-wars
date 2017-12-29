@@ -3,6 +3,7 @@ local Base = require 'entities/base'
 local Terrain = Base:new()
 
 Terrain.moveCost = 1
+Terrain.type = 'terrain'
 
 function Terrain:draw(posX, posY)
     love.graphics.setColor(100, 100, 100, 255)

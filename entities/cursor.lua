@@ -7,6 +7,8 @@ local Cursor = Base:new()
 local moveSound = love.audio.newSource("sounds/cursor/move.wav", "static")
 local selectSound = love.audio.newSource("sounds/cursor/select.wav", "static")
 
+Cursor.selected = {}
+
 function Cursor:draw(posX, posY)
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.setLineWidth(4)
@@ -36,9 +38,18 @@ end
 
 local function onSelect(self)
     local unit = units:find(self.x, self.y)
+    local action = actions:find(self.x, self.y)
+    -- if the cursor is over a unit
     if unit then
+        self.selected = unit
         selectSound:play()
         actions:addMoves(self.x, self.y, unit.speed)
+    -- if the cursor is over an action tile
+    elseif action and action.type == 'Move' then
+        self.selected:move(self.x, self.y)
+        self.selected = {}
+        actions:clear()
+        moveSound:play()
     else
         actions:clear()
         moveSound:play()

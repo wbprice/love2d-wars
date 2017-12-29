@@ -4,6 +4,7 @@ function Action:new()
     local action = {}
     setmetatable(action, self)
     self.__index = self
+    self.type = 'Action'
     return action
 end
 
