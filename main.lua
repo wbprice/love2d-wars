@@ -12,6 +12,7 @@ local cursor = Cursor:new(1, 1)
 
 units:addEntity(Tank:new(2, 3))
 units:addEntity(Tank:new(7, 5))
+units:addEntity(Tank:new(3, 3))
 cursors:addEntity(cursor)
 
 -- register event listeners
