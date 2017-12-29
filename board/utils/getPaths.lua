@@ -1,5 +1,6 @@
 local lamb = require 'utils/lamb'
 local terrain = require 'board/terrain'
+local units = require 'board/units'
 
 -- Creates a new Point one position above point
 local function moveUp(point)
@@ -52,6 +53,14 @@ local function isOnMap(point)
     end)
 end
 
+local function isMoveBlocked(point)
+    local x = point.x
+    local y = point.y
+    return lamb.find(units.contents, function(cell)
+        return cell.x == x and cell.y == y
+    end)
+end
+
 -- Given a Point, returns a Path with length one.
 local function getPathStart(point, speed)
     return {lamb.extend(point, {speed=speed})}
@@ -71,15 +80,19 @@ local function findNextMoves(path)
         return isOnMap(move)  
     end)
 
-    local three = lamb.filter(two, function(move) 
+    local three = lamb.filter(two, function(move)
+        return not isMoveBlocked(move)
+    end)
+
+    local four = lamb.filter(three, function(move)
         return not pathLoopsback(path, move)
     end)
 
-    local four = lamb.filter(three, function(move) 
+    local five = lamb.filter(four, function(move)
         return lastPoint.speed >= getMoveCost(move)
     end)
 
-    return four
+    return five
 end
 
 -- Given a Path and a Point, determines if adding the point to 
