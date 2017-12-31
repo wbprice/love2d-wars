@@ -1,16 +1,18 @@
-local Action = {}
+local Attack = {}
 
-function Action:new()
-    local action = {}
-    setmetatable(action, self)
+function Attack:new(posX, posY)
+    local attack = {}
+    setmetatable(attack, self)
     self.__index = self
-    self.type = 'Action'
-    return action
+    attack.x = posX
+    attack.y = posY
+    attack.type = 'Attack'
+    return attack
 end
 
-function Action:draw(originX, originY)
-    love.graphics.setColor(0, 0, 255, 155)
+function Attack:draw(originX, originY)
+    love.graphics.setColor(255, 0, 0, 155)
     love.graphics.rectangle('fill', originX, originY, 48, 48)
 end
 
-return Action
+return Attack

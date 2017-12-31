@@ -95,4 +95,21 @@ function lamb.push(table, member)
     table[#table + 1] = member
 end
 
+function lamb.diffByKey(table1, table2)
+    local output = {}
+    for key, value in pairs(table2) do
+        local match = false
+        for oKey, oValue in pairs(table1) do
+            if key == oKey then
+                match = true
+            end
+        end
+
+        if not match then
+            output[key] = value
+        end
+    end
+    return output
+end
+
 return lamb
