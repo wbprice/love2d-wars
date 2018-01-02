@@ -56,12 +56,25 @@ local function onSelect(self)
     end
 end
 
+local function onAltSelect(self)
+    local unit = units:find(self.x, self.y)
+    if unit then
+        self.selected = unit
+        selectSound:play()
+        actions:addAttacks(self.x, self.y, unit.speed)
+    else
+        actions:clear()
+        moveSound:play()
+    end
+end
+
 local keymap = {
     ['up'] = moveUp,
     ['down'] = moveDown,
     ['left'] = moveLeft,
     ['right'] = moveRight,
     ['z'] = onSelect,
+    ['x'] = onAltSelect,
 }
 
 function Cursor:onKeyPress()
