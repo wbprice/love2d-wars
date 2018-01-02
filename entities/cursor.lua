@@ -74,7 +74,7 @@ local keymap = {
     ['left'] = moveLeft,
     ['right'] = moveRight,
     ['z'] = onSelect,
-    ['x'] = onAltSelect,
+    ['s'] = onAltSelect,
 }
 
 function Cursor:onKeyPress()
